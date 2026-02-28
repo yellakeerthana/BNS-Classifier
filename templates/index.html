@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNS Complaint Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <header class="main-header">
+        <h1>BNS Complaint Analyzer</h1>
+        <p class="subtitle">Bharatiya Nyaya Sanhita 2023 Digital Framework</p>
+    </header>
+
+    <div class="card input-card">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="input-group">
+                <label class="form-label">Enter Complaint Text:</label>
+                <textarea name="complaint_text" placeholder="Type the detailed incident description here...">{{ extracted_text if extracted_text }}</textarea>
+            </div>
+
+            <div class="or-divider"><span>OR UPLOAD DOCUMENT</span></div>
+
+            <div class="input-group">
+                <label class="form-label">Upload Complaint Image:</label>
+                <input type="file" name="complaint_image" class="file-input">
+            </div>
+
+            <button type="submit" class="analyze-btn">Analyze Legal Framework</button>
+        </form>
+    </div>
+
+    {% if extracted_text %}
+    <div class="card result-card animate-in">
+        <div class="card-header">
+            <span class="icon">📄</span>
+            <h2>Extracted Complaint Text</h2>
+        </div>
+        <div class="transcription-box">
+            <p>{{ extracted_text }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if extracted_data %}
+    <div class="card result-card animate-in">
+        <div class="card-header">
+            <span class="icon">🔍</span>
+            <h2>Information Extraction</h2>
+        </div>
+        
+        <div class="info-box crime-type-box">
+            <label>IDENTIFIED CRIME CATEGORY (BNS CHAPTER)</label>
+            <p>{{ extracted_data.Crime_Type }}</p>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-box">
+                <label>PERSONS INVOLVED</label>
+                <p>{{ extracted_data.Persons }}</p>
+            </div>
+            <div class="info-box">
+                <label>PRIMARY LOCATION</label>
+                <p>{{ extracted_data.Location }}</p>
+            </div>
+            <div class="info-box">
+                <label>INCIDENT TIME</label>
+                <p>{{ extracted_data.Time }}</p>
+            </div>
+        </div>
+
+        <div class="info-box summary-box">
+            <label>EXECUTIVE SUMMARY</label>
+            <p>{{ extracted_data.Summary }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if bns_sections %}
+    <div class="card result-card animate-in">
+        <div class="card-header">
+            <span class="icon">📜</span>
+            <h2>Statutory Suggestions</h2>
+        </div>
+
+        <div class="sections-container">
+            {% for sec in bns_sections %}
+            <div class="section-item">
+                <div class="section-meta">
+                    <span class="section-number">Section {{ sec.section }}</span>
+                    <span class="confidence-tag">Match Found</span>
+                </div>
+                <h3 class="section-name">{{ sec.section_name }}</h3>
+                
+                <div class="confidence-bar-bg">
+                    <div class="confidence-bar-fill" >
+                        <span class="bar-text">{{ sec.confidence }}% Match</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<footer class="footer">
+    <p>© 2026 Judicial Tech Portal • Built for BNS Digital Compliance</p>
+</footer>
+
+</body>
+</html>

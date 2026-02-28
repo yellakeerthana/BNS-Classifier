@@ -1,0 +1,159 @@
+/* --- Global Styles --- */
+:root {
+    --primary: #1e3a8a;
+    --accent: #c5a059; /* Gold accent */
+    --bg: #f0f2f5;
+    --card-bg: #ffffff;
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    width: min(900px, 95%);
+    margin: 40px auto;
+}
+
+.main-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 { color: var(--primary); font-size: 2.5rem; margin-bottom: 5px; }
+.subtitle { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; }
+
+/* --- Card Base --- */
+.card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    border: 1px solid var(--border);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--bg);
+    padding-bottom: 15px;
+}
+
+.card-header h2 { font-size: 1.25rem; margin: 0; color: var(--primary); }
+
+/* --- Input Styling --- */
+textarea {
+    width: 100%; height: 120px; padding: 15px;
+    border: 1px solid var(--border); border-radius: 8px;
+    font-family: inherit; font-size: 1rem; resize: none;
+    box-sizing: border-box;
+}
+
+.or-divider {
+    text-align: center; margin: 25px 0;
+    position: relative; border-bottom: 1px solid var(--border);
+    line-height: 0.1em;
+}
+
+.or-divider span {
+    background: var(--card-bg); padding: 0 15px;
+    color: var(--text-muted); font-weight: bold; font-size: 0.8rem;
+}
+
+.analyze-btn {
+    width: 100%; padding: 15px; background: var(--primary);
+    color: white; border: none; border-radius: 8px;
+    font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.3s;
+    margin-top: 40px;
+}
+
+.analyze-btn:hover { 
+    background: #1e40af; 
+    transform: translateY(-2px); }
+
+/* --- Structured Data Boxes --- */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.info-box {
+    background: #f8fafc;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent); /* Vertical Gold Bar */
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+}
+
+.info-box label {
+    display: block; font-size: 0.65rem; font-weight: bold;
+    color: var(--text-muted); letter-spacing: 1px; margin-bottom: 5px;
+}
+
+.info-box p { margin: 0; font-weight: 600; font-size: 1rem; }
+
+.summary-box { border-left-color: var(--primary); }
+
+/* --- BNS Section Boxes --- */
+.section-item {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin-bottom: 15px;
+}
+
+
+.crime-type-box {
+    box-sizing: border-box;
+    background: #f8fafc; /* Light professional grey-blue */
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid #1e3a8a; /* Blue accent to match your theme */
+    
+    /* --- The Gap Fix --- */
+    margin-bottom: 25px; 
+    
+    width: 100%;
+}
+
+.crime-type-box label {
+    font-size: 0.75rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.crime-type-box p {
+    font-size: 1.1rem;
+    color: #1e3a8a;
+    font-weight: 600;
+    margin: 0;
+}
+.section-meta { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.section-number { font-weight: bold; color: var(--primary); font-family: monospace; }
+.confidence-tag { font-size: 0.8rem; color: #059669; font-weight: bold; background: #ecfdf5; padding: 2px 8px; border-radius: 4px; }
+
+.section-name { margin: 0 0 10px 0; font-size: 1.1rem; }
+
+.confidence-bar-bg { background: #f1f5f9; height: 6px; border-radius: 3px; overflow: hidden; }
+.confidence-bar-fill { background: var(--primary); height: 100%; transition: width 1s ease; }
+
+.footer { text-align: center; padding: 40px; color: var(--text-muted); font-size: 0.8rem; }
