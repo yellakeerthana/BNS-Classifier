@@ -9,7 +9,7 @@ import os
 # ==========================================
 # 1. SETUP - PASTE YOUR API KEY HERE
 # ==========================================
-GENAI_API_KEY = "AIzaSyD7e4wY3CdJ2PFwf81yOImtRGWRDY83XCM" 
+GENAI_API_KEY = "api key" 
 genai.configure(api_key=GENAI_API_KEY)
 gemini_model = genai.GenerativeModel('gemini-1.5-flash')
 
