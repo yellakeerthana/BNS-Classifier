@@ -1,5 +1,6 @@
 import spacy
 import os
+import re
 
 # Load the Spacy model
 try:
@@ -21,14 +22,35 @@ def extract_entities(text, crime_category=None):
     times = [ent.text for ent in doc.ents if ent.label_ in ["TIME", "DATE"]]
     persons = [ent.text for ent in doc.ents if ent.label_ == "PERSON"]
 
-    # 2. Keyword Backup for Locations (helpful for Indian addresses)
-    keywords = text.lower().split()
-    place_indicators = ["near", "at", "road", "market", "street", "station", "area"]
-    if not locations:
-        for i, word in enumerate(keywords):
-            if word in place_indicators and i+1 < len(keywords):
-                locations.append(keywords[i] + " " + keywords[i+1])
 
+    time_patterns = [
+        r"\byesterday\b",
+        r"\blast night\b",
+        r"\blast week\b",
+        r"\blast month\b",
+        r"\b\d{1,2} (am|pm|AM|PM)\b",
+        r"\b\d{1,2}:\d{2}\b",
+        r"\b\d+ days ago\b",
+        r"\bearly morning\b",
+        r"\baround \d{1,2}\b"
+    ]
+    for pattern in time_patterns:
+        matches = re.findall(pattern, text, re.IGNORECASE)
+        times.extend(matches)
+
+    # 2. Keyword Backup for Locations (helpful for Indian addresses)
+    
+    
+    if not locations:
+        place_indicators = ["near", "at", "in","on"]
+        words=text.split()
+        for i, word in enumerate(words):
+            if word.lower() in place_indicators:
+                phrase = []
+                for j in range(i, min(i + 5, len(words))):
+                    phrase.append(words[j])
+                locations.append(" ".join(phrase))
+                break
     # 3. Data Formatting for the UI Boxes
     data = {
         "Crime_Type": crime_category if crime_category else "General Legal Matter",

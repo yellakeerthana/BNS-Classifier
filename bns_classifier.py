@@ -3,15 +3,15 @@ from sentence_transformers import SentenceTransformer, util
 import torch
 import numpy as np
 import json
-import google.generativeai as genai
+#import google.generativeai as genai
+from google import genai
 import os
 
 # ==========================================
 # 1. SETUP - PASTE YOUR API KEY HERE
 # ==========================================
-GENAI_API_KEY = "api key" 
-genai.configure(api_key=GENAI_API_KEY)
-gemini_model = genai.GenerativeModel('gemini-1.5-flash')
+GENAI_API_KEY = "AIzaSyCWwfjYAddNGtjaOYEZSLWrtdO23CQ7MhA" 
+client = genai.Client(api_key=GENAI_API_KEY)
 
 # ==========================================
 # 2. DATA LOADING & PREPROCESSING
@@ -32,8 +32,8 @@ df = df.dropna(subset=["Section"])
 # Create the search context
 df['contextual_info'] = (
     df['Section _name'].astype(str) + "  " +
-    df['Chapter_subtype'].astype(str) 
-    #df['Description'].astype(str)
+    df['Chapter_subtype'].astype(str) + "  "+
+    df['Description'].astype(str)
 )
 
 # Initialize the Semantic Search Model
@@ -96,7 +96,7 @@ def suggest_bns_v2(user_complaint):
         ]
         """
 
-        response = gemini_model.generate_content(prompt)
+        response = client.models.generate_content(model="gemini-1.5-flash",content=prompt)
         
         # Clean the response (removes ```json blocks if Gemini adds them)
         raw_text = response.text.strip().replace('```json', '').replace('```', '')

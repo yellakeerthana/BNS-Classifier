@@ -46,7 +46,7 @@ def home():
             if bns_sections and len(bns_sections) > 0:
                 top_match=bns_sections[0]
                 # We pull the 'chapter' field returned by your Gemini prompt
-                crime_label = top_match.get('name', "General Criminal Matter")
+                crime_label = top_match.get('chapter', "General Criminal Matter")
 
             # STEP C: Pass the Chapter Subtype into the Extractor
             extracted_data = extract_entities(extracted_text, crime_category=crime_label)
