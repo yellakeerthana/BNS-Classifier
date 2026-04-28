@@ -3,7 +3,7 @@ import os
 from werkzeug.utils import secure_filename
 
 # Import your custom modules
-from ocr import advanced_ocr
+from ocr import extract_text_from_image
 from extractor import extract_entities
 from bns_classifier import suggest_bns_v2
 
@@ -32,7 +32,7 @@ def home():
             filename = secure_filename(file.filename)
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(filepath)
-            extracted_text = advanced_ocr(filepath)
+            extracted_text = extract_text_from_image(filepath)
         elif complaint_text:
             extracted_text = complaint_text
 

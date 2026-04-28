@@ -42,7 +42,7 @@ def extract_entities(text, crime_category=None):
     
     
     if not locations:
-        place_indicators = ["near", "at", "in","on"]
+        place_indicators = ["near", "at", "in"]
         words=text.split()
         for i, word in enumerate(words):
             if word.lower() in place_indicators:
@@ -51,6 +51,7 @@ def extract_entities(text, crime_category=None):
                     phrase.append(words[j])
                 locations.append(" ".join(phrase))
                 break
+
     # 3. Data Formatting for the UI Boxes
     data = {
         "Crime_Type": crime_category if crime_category else "General Legal Matter",

@@ -6,11 +6,13 @@ import json
 #import google.generativeai as genai
 from google import genai
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # ==========================================
 # 1. SETUP - PASTE YOUR API KEY HERE
 # ==========================================
-GENAI_API_KEY = "AIzaSyCWwfjYAddNGtjaOYEZSLWrtdO23CQ7MhA" 
+GENAI_API_KEY = os.getenv("GENAI_API_KEY")
 client = genai.Client(api_key=GENAI_API_KEY)
 
 # ==========================================
@@ -31,9 +33,9 @@ df = df.dropna(subset=["Section"])
 
 # Create the search context
 df['contextual_info'] = (
-    df['Section _name'].astype(str) + "  " +
-    df['Chapter_subtype'].astype(str) + "  "+
-    df['Description'].astype(str)
+    df['Section _name'].astype(str) + ".  " +
+    df['Chapter_subtype'].astype(str) 
+    
 )
 
 # Initialize the Semantic Search Model
@@ -96,12 +98,14 @@ def suggest_bns_v2(user_complaint):
         ]
         """
 
-        response = client.models.generate_content(model="gemini-1.5-flash",content=prompt)
-        
-        # Clean the response (removes ```json blocks if Gemini adds them)
-        raw_text = response.text.strip().replace('```json', '').replace('```', '')
+        response = client.models.generate_content(model="models/gemini-3-flash-preview",contents=prompt)
 
-        return json.loads(raw_text)
+
+        text = response.text.replace("```json","").replace("```","").strip()
+
+        return json.loads(text)
+        
+        
 
     except Exception as e:
         # Return a fallback if the API fails
